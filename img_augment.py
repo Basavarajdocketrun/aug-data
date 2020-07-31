@@ -32,7 +32,7 @@ def sp_noise(image,prob):
 image = np.zeros((512,512,3), np.uint8)# Only for grayscale image
 noise_img = sp_noise(image,0.5)
 
-im = cv2.imread('B2.jpg')
+im = cv2.imread('B1.jpg')
 blk = np.zeros((512,512,3), np.uint8)
 stretch = cv2.resize(im,(512,512))
 h,w,c = im.shape
@@ -50,14 +50,19 @@ crop = im[0:0+h1, 0:0+w1]
 
 im = crop
 h,w,c = im.shape
+print(w,h,c)
 try:
 
     wid=int((512-w)/2)
     hig=int((512-h)/2)
-    blk[hig:hig+im.shape[0],wid:wid+im.shape[1]]=im
-    hsv=cv2.cvtColor(stretch,cv2.COLOR_BGR2RGB)
-    cv2.imwrite("result4.png",blk)
-    cv2.imshow("result",noise_img)
+    if opt.imgtype=='fillblack':
+        blk[hig:hig+im.shape[0],wid:wid+im.shape[1]]=im
+        cv2.imwrite("result4.png",blk)
+    if opt.imgtype=='fillnoise':
+        noise_img[hig:hig+im.shape[0],wid:wid+im.shape[1]]=im
+        cv2.imwrite("result4.png",noise_img)
+    if opt.imgtype=='stretch':
+        cv2.imwrite("result4.png",stretch)
 
 except:
     pass
